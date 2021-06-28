@@ -15,54 +15,80 @@ public class Everland {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
-		while (true) {
+		int count = 0;
+		String[] selectDate = new String[100];
+		String[] regNum = new String[100];
+		int[] quantity = new int[100];
+		int[] preferentialNum = new int[100];
+		while (count < 100) {
 			System.out.println("이용날짜를 입력하세요.(숫자로만 8자리)");
-			String selectDate = sc.next();
-			if(selectDate.length()!=8) {
-				while(selectDate.length()!=8) {
+			selectDate[count] = sc.next();
+			if (selectDate[count].length() != 8) {
+				while (selectDate[count].length() != 8) {
 					System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-					selectDate=sc.next();
+					selectDate[count] = sc.next();
 				}
 			}
 			System.out.println("주민번호 앞자리를 입력하세요.(숫자로만 6자리)");
-			String regNum = sc.next();
-			if(regNum.length()!=6) {
-				while(regNum.length()!=6) {
+			regNum[count] = sc.next();
+			if (regNum[count].length() != 6) {
+				while (regNum[count].length() != 6) {
 					System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-					regNum=sc.next();
+					regNum[count] = sc.next();
 				}
 			}
 			System.out.println("몇 개를 주문하시겠습니까?");
-			int quantity = sc.nextInt();
+			quantity[count] = sc.nextInt();
 			System.out.println("우대사항을 선택하세요.\n1. 없음\n2. 장애인\n3. 국가유공자\n4. 다자녀\n5. 임산부");
-			int preferentialNum = sc.nextInt();
+			preferentialNum[count] = sc.nextInt();
 
-			PrintPrice(selectDate, regNum, quantity, preferentialNum);
+			count++;
 
-			System.out.println("종료하려면 1 입력");
+			System.out.println("추가 : 0, 종료 : 1");
 			int endSequence = sc.nextInt();
 			if (endSequence == 1) {
-				endSequence = 0;
 				break;
 			}
 		}
+		PrintPrice(selectDate, regNum, quantity, preferentialNum, count);
 		sc.close();
 	}
 
-	public static void PrintPrice(String selectDate, String regNum, int quantity, int preferentialNum) {
-		String ageResult = CalculateAge(selectDate, regNum);
-		int finalPrice = CalculatePrice(selectDate, preferentialNum);
+	public static void PrintPrice(String[] selectDate, String[] regNum, int[] quantity, int[] preferentialNum,
+			int count) {
+		String[] printTicketName = new String[count];
+		String[] printAgeResult = new String[count];
+		int[] printQuantity = new int[count];
+		int[] printTotalPrice = new int[count];
+		String[] printPreferentialName = new String[count];
+		int totalPrice[] = new int[count];
+		int sumTotalPrice = 0;
 
-		System.out.printf("가격은 %d원 입니다. \n감사합니다.\n", finalPrice * quantity);
+		for (int index = 0; index < count; index++) {
+			String ageResult = CalculateAge(selectDate[index], regNum[index], count);
+			int finalPrice = CalculatePrice(selectDate[index], preferentialNum[index], count);
+
+			totalPrice[index] = (finalPrice * quantity[index]);
+			sumTotalPrice += totalPrice[index];
+
+			printTicketName[index] = ticketName;
+			printAgeResult[index] = ageResult;
+			printQuantity[index] = quantity[index];
+			printTotalPrice[index] = totalPrice[index];
+			printPreferentialName[index] = preferentialName;
+		}
+
+		System.out.printf("가격은 %d원 입니다. \n감사합니다.\n", sumTotalPrice);
 		System.out.println("====================에버랜드====================");
-		System.out.printf("%s\t%s\t%d원\t*%s 요금적용\n", ticketName, ageResult, finalPrice * quantity, preferentialName);
+		for (int print = 0; print < count; print++) {
+			System.out.printf("%s\t%s X %d\t%d원\t*%s 요금적용\n", printTicketName[print], printAgeResult[print],
+					printQuantity[print], printTotalPrice[print], printPreferentialName[print]);
+		}
 		System.out.println("==============================================");
-
 	}
 
-	public static int CalculatePrice(String selectDate, int preferentialNum) {
+	public static int CalculatePrice(String selectDate, int preferentialNum, int count) {
 		int price = 0;
-
 		// 6월
 		if (selectDate.substring(0, 6).equals("202106")) {
 			switch (Integer.parseInt(selectDate.substring(6))) {
@@ -234,14 +260,12 @@ public class Everland {
 			preferentialName = "임산부 우대";
 			break;
 		}
-
 		return price;
 	}
 
-	public static String CalculateAge(String selectDate, String regNum) {
+	public static String CalculateAge(String selectDate, String regNum, int count) {
 		String ageResult;
 		int age = 0;
-
 		int comparisonYear = Integer.parseInt(selectDate.substring(0, 4)); // 2021
 		int comparisonYear2 = Integer.parseInt(selectDate.substring(2, 4)); // 21
 		int comparisonDate = Integer.parseInt(selectDate.substring(4)); // 예약 월,일
