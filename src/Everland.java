@@ -65,8 +65,8 @@ public class Everland {
 		int sumTotalPrice = 0;
 
 		for (int index = 0; index < count; index++) {
-			String ageResult = CalculateAge(selectDate[index], regNum[index], count);
-			int finalPrice = CalculatePrice(selectDate[index], preferentialNum[index], count);
+			String ageResult = CalculateAge(selectDate[index], regNum[index]);
+			int finalPrice = CalculatePrice(selectDate[index], preferentialNum[index]);
 
 			totalPrice[index] = (finalPrice * quantity[index]);
 			sumTotalPrice += totalPrice[index];
@@ -87,7 +87,7 @@ public class Everland {
 		System.out.println("==============================================");
 	}
 
-	public static int CalculatePrice(String selectDate, int preferentialNum, int count) {
+	public static int CalculatePrice(String selectDate, int preferentialNum) {
 		int price = 0;
 		// 6¿ù
 		if (selectDate.substring(0, 6).equals("202106")) {
@@ -263,7 +263,7 @@ public class Everland {
 		return price;
 	}
 
-	public static String CalculateAge(String selectDate, String regNum, int count) {
+	public static String CalculateAge(String selectDate, String regNum) {
 		String ageResult;
 		int age = 0;
 		int comparisonYear = Integer.parseInt(selectDate.substring(0, 4)); // 2021
