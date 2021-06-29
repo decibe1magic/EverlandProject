@@ -46,5 +46,11 @@ public class EverlandInputData {
 		preferentialNum.add(sc.nextInt());
 		return preferentialNum;
 	}
-
+	
+	public int inputEndSequence() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("추가 : 0, 종료 : 1");
+		int endNum = sc.nextInt();
+		return endNum;
+	}
 }
