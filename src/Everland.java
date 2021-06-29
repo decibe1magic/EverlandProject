@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Everland {
@@ -16,73 +17,79 @@ public class Everland {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		int count = 0;
-		String[] selectDate = new String[100];
-		String[] regNum = new String[100];
-		int[] quantity = new int[100];
-		int[] preferentialNum = new int[100];
-		while (count < 100) {
-			System.out.println("이용날짜를 입력하세요.(숫자로만 8자리)");
-			selectDate[count] = sc.next();
-			if (selectDate[count].length() != 8) {
-				while (selectDate[count].length() != 8) {
-					System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-					selectDate[count] = sc.next();
+		int endSequence = 0;
+		ArrayList<String> selectDate = new ArrayList<String>();
+		ArrayList<String> regNum = new ArrayList<String>();
+		ArrayList<Integer> quantity = new ArrayList<Integer>();
+		ArrayList<Integer> preferentialNum = new ArrayList<Integer>();
+		while (true) {
+			count = 0;
+			selectDate.clear();
+			regNum.clear();
+			quantity.clear();
+			preferentialNum.clear();
+			do {
+				System.out.println("이용날짜를 입력하세요.(숫자로만 8자리)");
+				selectDate.add(sc.next());
+				if (selectDate.get(count).length() != 8) {
+					while (selectDate.get(count).length() != 8) {
+						selectDate.remove(count);
+						System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+						selectDate.add(sc.next());
+					}
 				}
-			}
-			System.out.println("주민번호 앞자리를 입력하세요.(숫자로만 6자리)");
-			regNum[count] = sc.next();
-			if (regNum[count].length() != 6) {
-				while (regNum[count].length() != 6) {
-					System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-					regNum[count] = sc.next();
+				System.out.println("주민번호 앞자리를 입력하세요.(숫자로만 6자리)");
+				regNum.add(sc.next());
+				if (regNum.get(count).length() != 6) {
+					while (regNum.get(count).length() != 6) {
+						regNum.remove(count);
+						System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+						regNum.add(sc.next());
+					}
 				}
-			}
-			System.out.println("몇 개를 주문하시겠습니까?");
-			quantity[count] = sc.nextInt();
-			System.out.println("우대사항을 선택하세요.\n1. 없음\n2. 장애인\n3. 국가유공자\n4. 다자녀\n5. 임산부");
-			preferentialNum[count] = sc.nextInt();
+				System.out.println("몇 개를 주문하시겠습니까?");
+				quantity.add(sc.nextInt());
+				System.out.println("우대사항을 선택하세요.\n1. 없음\n2. 장애인\n3. 국가유공자\n4. 다자녀\n5. 임산부");
+				preferentialNum.add(sc.nextInt());
 
-			count++;
+				count++;
 
-			System.out.println("추가 : 0, 종료 : 1");
-			int endSequence = sc.nextInt();
-			if (endSequence == 1) {
-				break;
-			}
+				System.out.println("추가 : 0, 종료 : 1");
+				endSequence = sc.nextInt();
+			} while (endSequence != 1);
+			PrintPrice(selectDate, regNum, quantity, preferentialNum, count);
 		}
-		PrintPrice(selectDate, regNum, quantity, preferentialNum, count);
-		sc.close();
 	}
 
-	public static void PrintPrice(String[] selectDate, String[] regNum, int[] quantity, int[] preferentialNum,
-			int count) {
-		String[] printTicketName = new String[count];
-		String[] printAgeResult = new String[count];
-		int[] printQuantity = new int[count];
-		int[] printTotalPrice = new int[count];
-		String[] printPreferentialName = new String[count];
-		int totalPrice[] = new int[count];
+	public static void PrintPrice(ArrayList<String> selectDate, ArrayList<String> regNum, ArrayList<Integer> quantity,
+			ArrayList<Integer> preferentialNum, int count) {
+		ArrayList<String> printTicketName = new ArrayList<String>();
+		ArrayList<String> printAgeResult = new ArrayList<String>();
+		ArrayList<Integer> printQuantity = new ArrayList<Integer>();
+		ArrayList<Integer> printTotalPrice = new ArrayList<Integer>();
+		ArrayList<String> printPreferentialName = new ArrayList<String>();
+		ArrayList<Integer> totalPrice = new ArrayList<Integer>();
 		int sumTotalPrice = 0;
 
 		for (int index = 0; index < count; index++) {
-			String ageResult = CalculateAge(selectDate[index], regNum[index]);
-			int finalPrice = CalculatePrice(selectDate[index], preferentialNum[index]);
+			String ageResult = CalculateAge(selectDate.get(index), regNum.get(index));
+			int finalPrice = CalculatePrice(selectDate.get(index), preferentialNum.get(index));
 
-			totalPrice[index] = (finalPrice * quantity[index]);
-			sumTotalPrice += totalPrice[index];
+			totalPrice.add(finalPrice * quantity.get(index));
+			sumTotalPrice += totalPrice.get(index);
 
-			printTicketName[index] = ticketName;
-			printAgeResult[index] = ageResult;
-			printQuantity[index] = quantity[index];
-			printTotalPrice[index] = totalPrice[index];
-			printPreferentialName[index] = preferentialName;
+			printTicketName.add(ticketName);
+			printAgeResult.add(ageResult);
+			printQuantity.add(quantity.get(index));
+			printTotalPrice.add(totalPrice.get(index));
+			printPreferentialName.add(preferentialName);
 		}
 
 		System.out.printf("가격은 %d원 입니다. \n감사합니다.\n", sumTotalPrice);
 		System.out.println("====================에버랜드====================");
 		for (int print = 0; print < count; print++) {
-			System.out.printf("%s\t%s X %d\t%d원\t*%s 요금적용\n", printTicketName[print], printAgeResult[print],
-					printQuantity[print], printTotalPrice[print], printPreferentialName[print]);
+			System.out.printf("%s\t%s X %d\t%d원\t*%s 요금적용\n", printTicketName.get(print), printAgeResult.get(print),
+					printQuantity.get(print), printTotalPrice.get(print), printPreferentialName.get(print));
 		}
 		System.out.println("==============================================");
 	}
