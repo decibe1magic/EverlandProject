@@ -3,13 +3,14 @@ import java.util.Scanner;
 
 public class EverlandInputData {
 	
-	public ArrayList<String> inputDate(ArrayList<String> selectDate, int count) {
+	public ArrayList<String> inputDate(ArrayList<String> selectDate) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("이용날짜를 입력하세요.(숫자로만 8자리)");
 		selectDate.add(sc.next());
-		if (selectDate.get(count).length() != 8) {
-			while (selectDate.get(count).length() != 8) {
-				selectDate.remove(count);
+		int index = selectDate.size() - 1;
+		if (selectDate.get(index).length() != 8) {
+			while (selectDate.get(index).length() != 8) {
+				selectDate.remove(index);
 				System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 				selectDate.add(sc.next());
 			}
@@ -17,13 +18,14 @@ public class EverlandInputData {
 		return selectDate;
 	}
 	
-	public ArrayList<String> inputRegNum(ArrayList<String> regNum, int count) {
+	public ArrayList<String> inputRegNum(ArrayList<String> regNum) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("주민번호 앞자리를 입력하세요.(숫자로만 6자리)");
 		regNum.add(sc.next());
-		if (regNum.get(count).length() != 6) {
-			while (regNum.get(count).length() != 6) {
-				regNum.remove(count);
+		int index = regNum.size() - 1;
+		if (regNum.get(index).length() != 6) {
+			while (regNum.get(index).length() != 6) {
+				regNum.remove(index);
 				System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
 				regNum.add(sc.next());
 			}

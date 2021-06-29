@@ -21,7 +21,7 @@ public class EverlandProcess {
 	}
 
 	public void printPrice(ArrayList<String> selectDate, ArrayList<String> regNum, ArrayList<Integer> quantity,
-			ArrayList<Integer> preferentialNum, int count) {
+			ArrayList<Integer> preferentialNum) {
 		ArrayList<String> printTicketName = new ArrayList<String>();
 		ArrayList<String> printAgeResult = new ArrayList<String>();
 		ArrayList<Integer> printQuantity = new ArrayList<Integer>();
@@ -30,9 +30,9 @@ public class EverlandProcess {
 		ArrayList<Integer> totalPrice = new ArrayList<Integer>();
 		int sumTotalPrice = 0;
 
-		for (int index = 0; index < count; index++) {
-			String ageResult = calculateAge(selectDate.get(index), regNum.get(index));
-			int finalPrice = calculatePrice(selectDate.get(index), preferentialNum.get(index));
+		for (int index = 0; index < regNum.size(); index++) {
+			String ageResult = calculateAge(selectDate.get(0), regNum.get(index));
+			int finalPrice = calculatePrice(selectDate.get(0), preferentialNum.get(index));
 
 			totalPrice.add(finalPrice * quantity.get(index));
 			sumTotalPrice += totalPrice.get(index);
@@ -46,7 +46,7 @@ public class EverlandProcess {
 
 		System.out.printf("가격은 %d원 입니다. \n감사합니다.\n", sumTotalPrice);
 		System.out.println("====================에버랜드====================");
-		for (int print = 0; print < count; print++) {
+		for (int print = 0; print < regNum.size(); print++) {
 			System.out.printf("%s\t%s X %d\t%d원\t*%s 요금적용\n", printTicketName.get(print), printAgeResult.get(print),
 					printQuantity.get(print), printTotalPrice.get(print), printPreferentialName.get(print));
 		}
