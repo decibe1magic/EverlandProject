@@ -3,22 +3,17 @@ public class Everland {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		EverlandArrayClass arrayClass = new EverlandArrayClass();
 		EverlandProcess everlandProcess = new EverlandProcess();
 		EverlandInputData inputData = new EverlandInputData();
 
 		while (true) {
-			everlandProcess.clearAll(arrayClass.selectDate, arrayClass.regNum, arrayClass.quantity,
-					arrayClass.preferentialNum);
-			inputData.inputDate(arrayClass.selectDate);
+			everlandProcess.clearAll(inputData.arrData);
+			inputData.selectDate();
 			do {
-				inputData.inputRegNum(arrayClass.regNum);
-				inputData.inputQuantity(arrayClass.quantity);
-				inputData.inputPreferentialNum(arrayClass.preferentialNum);
+				inputData.inputData();
 				
 			} while (inputData.inputEndSequence() != 1);
-			everlandProcess.printPrice(arrayClass.selectDate, arrayClass.regNum, arrayClass.quantity,
-					arrayClass.preferentialNum);
+			everlandProcess.printPrice(inputData.arrData);
 		}
 	}
 }
